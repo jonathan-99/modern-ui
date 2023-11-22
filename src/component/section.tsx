@@ -1,9 +1,9 @@
 # https://www.twilio.com/blog/intro-custom-button-component-typescript-react
-# button within a page
+# button within a section
 
 import action-button from "./src/components/action-button";
 
-function Page() {
+function Section() {
   return (
     <>
       <h1>Colorful Custom Button Components</h1>
@@ -20,4 +20,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default Section;
