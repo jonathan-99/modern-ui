@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 
-import Page from './src/component/page';
+import Page from './component/page';
 
 function App(){
     return (
-        render(<page />, document.getElementById('main'));
+        render(<Page />, document.getElementById('main'))
     );
 }
 

@@ -1,7 +1,9 @@
-# https://www.twilio.com/blog/intro-custom-button-component-typescript-react
+/*# https://www.twilio.com/blog/intro-custom-button-component-typescript-react
 # section within a page
-
-import section from "./src/components/section";
+*/ 
+import section from "./section";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 
 function Page() {
   return (
