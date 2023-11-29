@@ -2,10 +2,9 @@
 # https://www.twilio.com/blog/intro-custom-button-component-typescript-react
 # button within a section */
 
-import actionButton from "./action-button";
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import ActionButton from "./action-button";
+import aButton from "./action-button";
 
 function Section() {
   return (

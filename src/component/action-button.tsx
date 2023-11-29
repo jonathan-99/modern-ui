@@ -1,9 +1,9 @@
 import CheckCircle from '@mui/icons-material/CheckCircle';
-import { Button, ButtonProps } from '@mui/material';
+import { Button } from '@mui/material';
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-interface Props {
+interface ButtonProperties {
     border: string;
     color: string;
     children?: React.ReactNode;
@@ -13,7 +13,7 @@ interface Props {
     width: string;
 }
 
-const aButton: React.FC<Props> = ({
+const aButton: React.FC<ButtonProperties> = ({
         border,
         color,
         children,

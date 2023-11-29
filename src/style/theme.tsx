@@ -1,6 +1,4 @@
-import { createTheme as createThemeInstance } from '@material-ui/core/styles';
-
-
+/*import { createTheme as createThemeInstance } from '@material-ui/core/styles'; */
 
 import { createTheme } from '@mui/material';
 
@@ -54,7 +52,5 @@ const theme = createTheme({
     },
   },
 });
-
-export const themeInstance = createThemeInstance(commonTheme);
 
 export default theme;
