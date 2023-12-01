@@ -36,6 +36,3 @@ UI with API calls in TypeScript
  - https://react.dev/learn
  - https://code.visualstudio.com/Docs/languages/typescript
  - https://www.digitalocean.com/community/tutorials/react-typescript-with-react
-
-# Useful nuggets
- - Typescript and PropTypes serve different purposes. Typescript validates types at compile time, whereas PropTypes are checked at runtime.
