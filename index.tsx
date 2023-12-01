@@ -2,7 +2,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import Page from './src/component/page';
 
-ReactDOM.render(<Page />, this.document.getElementById('main'));
+ReactDOM.render(<Page />, document.getElementById('main'));
 
 /*
 
