@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                script {
+                    def gitRepoUrl = 'https://github.com/jonathan-99/modern-ui.git'
+                    def repoDir = "${WORKSPACE}/repository"
+
+                    echo "Cloning repository from $gitRepoUrl to $repoDir..."
+                    sh "git clone $gitRepoUrl $repoDir"
+                }
+            }
+        }
+
+        stage('Build Code') {
+            steps {
+                script {
+                    def repoDir = "${WORKSPACE}/repository"
+                    echo "Compiling code..."
+                    sh "cd $repoDir && ./gradlew build"
+                }
+            }
+        }
+
+        stage('Run Application') {
+            steps {
+                script {
+                    def repoDir = "${WORKSPACE}/repository"
+                    echo "Running the application..."
+                    sh "cd $repoDir && ./gradlew bootRun"
+                }
+            }
+        }
+    }
+}
