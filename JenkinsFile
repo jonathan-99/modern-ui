@@ -22,7 +22,7 @@ pipeline {
                     // Log the contents of the repository directory for debugging purposes
                     sh "ls -la $repoDir"
                     // Run TypeScript compilation with additional logging
-                    sh "cd $repoDir && tsc --build tsconfig.json --listEmittedFiles --verbose"
+                    sh "cd $repoDir && tsc --build tsconfig.json --listEmittedFiles --verbose 2>&1 | tee $repoDir/build.log"
                     // Log the result of the compilation
                     sh "cat $repoDir/build.log"
                 }
