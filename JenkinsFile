@@ -15,14 +15,22 @@ pipeline {
         }
 
         stage('Build Code') {
-            steps {
-                script {
-                    def repoDir = "${WORKSPACE}/repository"
-                    echo "Compiling code..."
-                    sh "cd $repoDir && ./gradlew build"
-                }
+    steps {
+        script {
+            def repoDir = "${WORKSPACE}/repository"
+            echo "Compiling TypeScript code..."
+            def result = sh(script: "cd $repoDir && tsc", returnStatus: true)
+            if (result == 0) {
+                echo "TypeScript compilation successful."
+            } else {
+                error "TypeScript compilation failed."
             }
+            echo "Building Java code..."
+            sh "cd $repoDir && ./gradlew build"
         }
+    }
+}
+
 
         stage('Run Application') {
             steps {
