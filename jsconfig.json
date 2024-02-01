@@ -16,6 +16,8 @@
     },
     "exclude": [
         "node_modules",
-        "**/node_modules/*"
+        "**/node_modules/*",
+        "@types/prop-types",
+        "prop-types"
     ]
 }

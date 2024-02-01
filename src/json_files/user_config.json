@@ -1,0 +1,16 @@
+{
+  "cmd": [
+    {
+      "cmd_id": 1,
+      "name": "ls",
+      "options": "-la",
+      "priv_required": false
+    },
+    {
+      "cmd_id": 2,
+      "name": "ps",
+      "options": "-aux",
+      "priv_required": false
+    }
+  ]
+}
