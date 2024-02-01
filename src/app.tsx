@@ -1,6 +1,14 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 
-import Counter from './Counter';
+import Page from './component/page';
 
-render(<Counter />, document.getElementById('main'));
+function App(){
+    return (
+        render(<Page />, document.getElementById('main'))
+    );
+}
+
+
+
+export default App;
