@@ -15,22 +15,17 @@ pipeline {
         }
 
         stage('Build Code') {
-    steps {
-        script {
-            def repoDir = "${WORKSPACE}/repository"
-            echo "Compiling TypeScript code..."
-            def result = sh(script: "cd $repoDir && tsc", returnStatus: true)
-            if (result == 0) {
-                echo "TypeScript compilation successful."
-            } else {
-                error "TypeScript compilation failed."
+            steps {
+                script {
+                    def repoDir = "${WORKSPACE}/repository"
+                    echo "Compiling TypeScript code..."
+                    // Log the contents of the repository directory for debugging purposes
+                    sh "ls -la $repoDir"
+                    // Run TypeScript compilation with additional logging
+                    sh "cd $repoDir && tsc --build tsconfig.json --listEmittedFiles --verbose"
+                }
             }
-            echo "Building Java code..."
-            sh "cd $repoDir && ./gradlew build"
         }
-    }
-}
-
 
         stage('Run Application') {
             steps {
