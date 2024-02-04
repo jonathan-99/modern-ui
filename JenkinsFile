@@ -17,9 +17,7 @@ pipeline {
         stage('Build Code') {
             steps {
                 script {
-                    def repoDir = "${WORKSPACE}/repository"
-                    echo "Compiling code..."
-                    sh "cd $repoDir && ./gradlew build"
+                    sh "./jenkins/startup-and-install.sh"
                 }
             }
         }
@@ -27,9 +25,8 @@ pipeline {
         stage('Run Application') {
             steps {
                 script {
-                    def repoDir = "${WORKSPACE}/repository"
-                    echo "Running the application..."
-                    sh "cd $repoDir && ./gradlew bootRun"
+                    echo "Jenkins Running the application..."
+                    sh "./jenkins/download-and-run-app.sh"
                 }
             }
         }
