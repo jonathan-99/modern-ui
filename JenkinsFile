@@ -5,11 +5,11 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 script {
-                    def gitRepoUrl = 'https://github.com/jonathan-99/modern-ui.git'
-                    def repoDir = "${WORKSPACE}/repository"
-
-                    echo "Cloning repository from $gitRepoUrl to $repoDir..."
-                    sh "git clone $gitRepoUrl $repoDir"
+                    //def gitRepoUrl = 'https://github.com/jonathan-99/modern-ui.git'
+                    //def repoDir = "${WORKSPACE}/repository"
+                    echo "this is just a holding stage"
+                    //echo "Cloning repository from $gitRepoUrl to $repoDir..."
+                    //sh "git clone $gitRepoUrl $repoDir"
                 }
             }
         }
