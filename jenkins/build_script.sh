@@ -3,6 +3,7 @@
 node -v
 npm -v
 
+
 sudo visudo
 
 # Check if nodejs is installed
