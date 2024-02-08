@@ -25,8 +25,12 @@ cd typescript-files || exit
 # Install TypeScript locally without requiring administrative privileges
 npm install typescript --prefix ./
 
-# Compile TypeScript code
+# Debugging
+echo "Current directory: $(pwd)"
+echo "Node modules: $(ls -l node_modules)"
+echo "Compiling TypeScript code..."
 ./node_modules/.bin/tsc   # Compile TypeScript code
+echo "Compilation finished."
 
 # Run unittests
 echo "Run unittests"
