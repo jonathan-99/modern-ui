@@ -16,7 +16,6 @@ cat /etc/os-release
 echo "Node.js Version:"
 node -v
 
-
 # Print npm version
 echo "npm Version:"
 npm -v

@@ -51,6 +51,12 @@ Ensure node_modules -> prop-types (all) are deleted. (I don't remember what inst
 
 # Testing.
 Written with a jenkins file, to a build server and the app run locally.
+## commands used:
+```commandline
+Set-ItemProperty -Path .\startup-and-install.sh -Name IsReadOnly -Value $false
+icacls .\startup-and-install.sh /grant Everyone:RX
+
+```
 
 # References / Link / Top learning sites.
  - https://react.dev/learn
