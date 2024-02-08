@@ -50,7 +50,8 @@ coverage run -m unittest discover -s testing -p 'test_*.tsx'
 coverage report -m
 
 # Run Docker container on host port 7000
-docker run -it --rm --name typescript-tester-container -p 7000:7000 arm32v7/ubuntu:latest
+docker ps -a
+docker run -d --name typescript-tester-container -p 7000:7000 arm32v7/ubuntu:latest tail -f /dev/null
 
 # Wait for the app to start
 sleep 5
