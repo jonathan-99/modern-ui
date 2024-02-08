@@ -29,10 +29,12 @@ npm install typescript --no-save
 ./node_modules/.bin/tsc   # Compile TypeScript code
 
 # Run unittests
-# Run unittests
+echo "Run unittests"
 python3 -m unittest discover -s testing -p 'test_*.tsx'
 
 # Run coverage report
+echo "coverage report"
+pip install coverage
 coverage run -m unittest discover -s testing -p 'test_*.tsx'
 coverage report -m
 
