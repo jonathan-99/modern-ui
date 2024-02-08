@@ -10,6 +10,7 @@ pipeline {
                     echo "this is just a holding stage"
                     //echo "Cloning repository from $gitRepoUrl to $repoDir..."
                     //sh "git clone $gitRepoUrl $repoDir"
+                    //sh "git update-index --chmod=+x $repoDir/jenkins/startup-and-install.sh"
                 }
             }
         }
@@ -17,6 +18,7 @@ pipeline {
         stage('Build Code') {
             steps {
                 script {
+                    sh "chmod +x -R ${env.WORKSPACE}" // include jenkins/
                     sh "./jenkins/startup-and-install.sh"
                 }
             }
