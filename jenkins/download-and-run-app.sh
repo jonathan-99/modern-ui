@@ -34,6 +34,13 @@ python3 -m unittest discover -s testing -p 'test_*.tsx'
 
 # Run coverage report
 echo "coverage report"
+# Create a virtual environment
+python3 -m venv myenv
+
+# Activate the virtual environment
+source myenv/bin/activate
+
+# Install coverage inside the virtual environment
 pip install coverage
 coverage run -m unittest discover -s testing -p 'test_*.tsx'
 coverage report -m
