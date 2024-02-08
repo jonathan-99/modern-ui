@@ -13,12 +13,17 @@ if ! container_running; then
 fi
 
 # Clone git repo containing TypeScript files
+if [ -d "typescript-files" ]; then
+    rm -rf typescript-files
+fi
+# Clone git repo containing TypeScript files
 git clone https://github.com/jonathan-99/modern-ui typescript-files
 
 # Enter the cloned directory
 cd typescript-files || exit
 
 # Compile TypeScript code
+npm install -g typescript
 tsc
 
 # Run unittests
