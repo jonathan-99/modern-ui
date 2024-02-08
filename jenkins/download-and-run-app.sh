@@ -22,9 +22,11 @@ git clone https://github.com/jonathan-99/modern-ui typescript-files
 # Enter the cloned directory
 cd typescript-files || exit
 
+# Install TypeScript locally without requiring administrative privileges
+npm install typescript --no-save
+
 # Compile TypeScript code
-npm install -g typescript
-tsc
+./node_modules/.bin/tsc   # Compile TypeScript code
 
 # Run unittests
 # Run unittests
