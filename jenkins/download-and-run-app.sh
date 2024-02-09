@@ -32,6 +32,8 @@ echo "Compiling TypeScript code..."
 ./node_modules/.bin/tsc   # Compile TypeScript code
 echo "Compilation finished."
 
+#!/bin/bash
+
 # Check if index.html file exists
 if [ ! -f "index.html" ]; then
     echo "Error: index.html file not found."
@@ -46,18 +48,32 @@ docker run -d --name typescript-tester-container -p 7000:80 arm32v7/ubuntu:lates
 
 # Check if /var/www/html directory exists, if not create it
 if ! docker exec -it typescript-tester-container [ -d "/var/www/html" ]; then
-    docker exec -it typescript-tester-container mkdir -p /var/www/html
+    mkdir_result=$(docker exec -it typescript-tester-container mkdir -p /var/www/html 2>&1)
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to create directory /var/www/html in the container."
+        echo "Container Logs:"
+        echo "$mkdir_result"
+        exit 1
+    fi
 fi
 
-# Check if the directory was created successfully
-if ! docker exec -it typescript-tester-container [ -d "/var/www/html" ]; then
-    echo "Error: Failed to create directory /var/www/html in the container."
-    exit 1
+# Check if Apache is installed by checking if apache2 binary exists
+if ! docker exec -it typescript-tester-container command -v apache2 &>/dev/null; then
+    # Install Apache web server inside the container if /var/www/html directory exists
+    docker exec -it typescript-tester-container apt-get update
+    install_result=$(docker exec -it typescript-tester-container apt-get install -y apache2 2>&1)
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to install Apache web server."
+        echo "Install Logs:"
+        echo "$install_result"
+        exit 1
+    fi
+
+    # Restart Apache to apply changes
+    docker exec -it typescript-tester-container service apache2 restart
 fi
 
-# Install Apache web server inside the container if /var/www/html directory exists
-docker exec -it typescript-tester-container apt-get update
-docker exec -it typescript-tester-container apt-get install -y apache2
+echo "Apache web server installed and TypeScript app hosted on port 7000."
 
 # Check if Apache installation was successful
 if ! docker exec -it typescript-tester-container dpkg -l | grep -q "apache2"; then
