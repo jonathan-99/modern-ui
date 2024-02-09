@@ -42,6 +42,16 @@ for file in $ts_files; do
     fi
 done
 
+# Run the TypeScript compiler with the --showConfig flag
+echo "Running TypeScript compiler with --showConfig flag..."
+npx tsc --showConfig
+
+# If the compilation fails, exit with an error message
+if [ $? -ne 0 ]; then
+    echo "Error: Compilation of TypeScript code failed."
+    exit 1
+fi
+
 echo "All TypeScript files in 'src' directory passed syntax check."
 
 
