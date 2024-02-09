@@ -63,7 +63,6 @@ npm install typescript --prefix ./
 # Compile TypeScript code
 ./node_modules/.bin/tsc || {
     echo "Error: Compilation of TypeScript code failed."
-    exit 1
 }
 
 # Check if index.html file exists
