@@ -32,7 +32,15 @@ echo "Compiling TypeScript code..."
 ./node_modules/.bin/tsc   # Compile TypeScript code
 echo "Compilation finished."
 
-#!/bin/bash
+# Run npm install with error trapping
+npm install --loglevel=error || {
+    echo "Error: npm install failed. Trying again with cache cleanup..."
+    npm cache clean --force
+    npm install --loglevel=error || {
+        echo "Error: npm install still failed after cache cleanup. Aborting."
+        exit 1
+    }
+}
 
 # Check if index.html file exists
 if [ ! -f "index.html" ]; then
