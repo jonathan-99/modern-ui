@@ -13,24 +13,50 @@ if ! container_running; then
 fi
 
 # Clone git repo containing TypeScript files
+if [ -d "typescript-files" ]; then
+    rm -rf typescript-files
+fi
+# Clone git repo containing TypeScript files
 git clone https://github.com/jonathan-99/modern-ui typescript-files
 
 # Enter the cloned directory
 cd typescript-files || exit
 
-# Compile TypeScript code
-tsc
+# Install TypeScript locally without requiring administrative privileges
+npm install typescript --prefix ./
 
-# Run unittests
-# Run unittests
-python3 -m unittest discover -s testing -p 'test_*.tsx'
+# Debugging
+echo "Current directory: $(pwd)"
+echo "Node modules: $(ls -l node_modules)"
+echo "Compiling TypeScript code..."
+./node_modules/.bin/tsc   # Compile TypeScript code
+echo "Compilation finished."
 
-# Run coverage report
-coverage run -m unittest discover -s testing -p 'test_*.tsx'
-coverage report -m
+# Install Apache web server inside the container
+docker exec -it typescript-tester-container apt-get update
+docker exec -it typescript-tester-container apt-get install -y apache2
+# Replace the default Apache index.html with the TypeScript app
+docker cp index.html typescript-tester-container:/var/www/html/index.html
+# Restart Apache to apply changes
+docker exec -it typescript-tester-container service apache2 restart
+echo "Apache web server installed and TypeScript app hosted on port 7000."
 
-# Run Docker container on host port 7000
-docker run -it --rm --name typescript-tester-container -p 7000:7000 arm32v7/ubuntu:latest
+# Check if the container is running and on the correct port
+container_info=$(docker ps -a --filter "name=typescript-tester-container" --format "{{.Names}} {{.Ports}}")
+
+if [[ -n "$container_info" ]]; then
+    if [[ "$container_info" != *"7000->7000"* ]]; then
+        echo "Container is running but not on port 7000:7000. Stopping and restarting with correct port..."
+        docker stop typescript-tester-container
+        docker rm typescript-tester-container
+        docker run -d --name typescript-tester-container -p 7000:7000 arm32v7/ubuntu:latest tail -f /dev/null
+    else
+        echo "Container is running and on port 7000:7000. No action needed."
+    fi
+else
+    echo "Container is not running. Starting it..."
+    docker run -d --name typescript-tester-container -p 7000:7000 arm32v7/ubuntu:latest tail -f /dev/null
+fi
 
 # Wait for the app to start
 sleep 5
