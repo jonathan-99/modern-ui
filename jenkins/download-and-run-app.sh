@@ -75,10 +75,17 @@ fi
 docker ps -a --filter "name=typescript-tester-container" --format "{{.ID}}" | xargs -r docker rm -f
 
 # Run the Docker container
-docker run -d --name typescript-tester-container -p 7000:80 arm32v7/ubuntu:latest tail -f /dev/null
+container_id=$(docker run -d --name typescript-tester-container -p 7000:80 arm32v7/ubuntu:latest tail -f /dev/null)
 
+# Check if the container is running
+if [ -z "$container_id" ]; then
+    echo "Error: Docker container failed to start."
+    exit 1
+fi
+
+echo "waiting..."
 # Wait for the app to start
-sleep 5
+sleep 10
 
 # Check if the app is up
 echo "Checking if the application is up..."
