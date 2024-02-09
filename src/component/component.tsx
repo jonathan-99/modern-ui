@@ -27,6 +27,3 @@ export default class Counter extends React.Component {
     );
   }
 }
-
-# https://www.twilio.com/blog/intro-custom-button-component-typescript-react
-# button within a page
