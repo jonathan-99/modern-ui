@@ -51,16 +51,18 @@ docker exec -it typescript-tester-container apt-get install -y apache2
 # Create the directory /var/www/html if it doesn't exist
 docker exec -it typescript-tester-container mkdir -p /var/www/html
 
-# Wait for Apache to start
-sleep 2
-
 # Copy the index.html file into the container
 docker cp index.html typescript-tester-container:/var/www/html/index.html
+
+# Set appropriate permissions for the directory and files
+docker exec -it typescript-tester-container chown -R www-data:www-data /var/www/html
+docker exec -it typescript-tester-container chmod -R 755 /var/www/html
 
 # Restart Apache to apply changes
 docker exec -it typescript-tester-container service apache2 restart
 
 echo "Apache web server installed and TypeScript app hosted on port 7000."
+
 
 
 # Check if the container is running and on the correct port
