@@ -44,27 +44,27 @@ done
 
 docker exec typescript-tester-container env
 
-
-#!/bin/bash
-
 # Run the TypeScript compiler with the --showConfig flag
 echo "Running TypeScript compiler with --showConfig flag..."
 npx tsc --showConfig
 
-# If the compilation fails, print an error message but continue
+# If the compilation fails, exit with an error message
 if [ $? -ne 0 ]; then
     echo "Error: Compilation of TypeScript code failed."
-else
-    echo "All TypeScript files in 'src' directory passed syntax check."
-
-    # Install TypeScript locally without requiring administrative privileges
-    npm install typescript --prefix ./
-
-    # Compile TypeScript code
-    ./node_modules/.bin/tsc || {
-        echo "Error: Compilation of TypeScript code failed."
-    }
+    exit 1
 fi
+
+echo "All TypeScript files in 'src' directory passed syntax check."
+
+
+# Install TypeScript locally without requiring administrative privileges
+npm install typescript --prefix ./
+
+# Compile TypeScript code
+./node_modules/.bin/tsc || {
+    echo "Error: Compilation of TypeScript code failed."
+    exit 1
+}
 
 # Check if index.html file exists
 if [ ! -f "index.html" ]; then
