@@ -36,7 +36,7 @@ ts_files=$(find src -name "*.ts")
 # Check each TypeScript file for syntax errors
 for file in $ts_files; do
     echo "Checking syntax errors in $file..."
-    if ! npx tsc --noEmit --skipLibCheck "$file"; then
+    if ! npx tsc --noEmit --skipLibCheck "$file" 2>&1; then
         echo "Error: Syntax errors found in $file"
         exit 1
     fi
