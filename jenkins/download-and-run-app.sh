@@ -24,6 +24,27 @@ git clone https://github.com/jonathan-99/modern-ui typescript-files
 # Enter the cloned directory
 cd typescript-files || exit
 
+# Check if the 'src' directory exists
+if [ ! -d "src" ]; then
+    echo "Error: 'src' directory not found."
+    exit 1
+fi
+
+# Find all TypeScript files in the 'src' directory
+ts_files=$(find src -name "*.ts")
+
+# Check each TypeScript file for syntax errors
+for file in $ts_files; do
+    echo "Checking syntax errors in $file..."
+    if ! npx tsc --noEmit --skipLibCheck "$file"; then
+        echo "Error: Syntax errors found in $file"
+        exit 1
+    fi
+done
+
+echo "All TypeScript files in 'src' directory passed syntax check."
+
+
 # Install TypeScript locally without requiring administrative privileges
 npm install typescript --prefix ./
 
