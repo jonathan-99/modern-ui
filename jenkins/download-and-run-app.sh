@@ -38,15 +38,20 @@ if [ ! -f "index.html" ]; then
     exit 1
 fi
 
+# Run the Docker container
+docker run -d --name typescript-tester-container -p 7000:80 arm32v7/ubuntu:latest tail -f /dev/null
 # Install Apache web server inside the container
 docker exec -it typescript-tester-container apt-get update
 docker exec -it typescript-tester-container apt-get install -y apache2
 # Create a directory for hosting the TypeScript app
 docker exec -it typescript-tester-container mkdir -p /var/www/html
-# Replace the default Apache index.html with the TypeScript app
+# Wait for Apache to start
+sleep 2
+# Copy the index.html file into the container
 docker cp index.html typescript-tester-container:/var/www/html/index.html
 # Restart Apache to apply changes
 docker exec -it typescript-tester-container service apache2 restart
+
 echo "Apache web server installed and TypeScript app hosted on port 7000."
 
 # Check if the container is running and on the correct port
