@@ -42,6 +42,8 @@ for file in $ts_files; do
     fi
 done
 
+docker exec "name=typescript-tester-container" env
+
 # Run the TypeScript compiler with the --showConfig flag
 echo "Running TypeScript compiler with --showConfig flag..."
 npx tsc --showConfig
