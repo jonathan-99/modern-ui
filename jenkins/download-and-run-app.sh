@@ -38,17 +38,25 @@ if [ ! -f "index.html" ]; then
     exit 1
 fi
 
+# Check if the container with the same name exists and remove it if it does
+docker ps -a --filter "name=typescript-tester-container" --format "{{.ID}}" | xargs docker rm -f
+
 # Run the Docker container
 docker run -d --name typescript-tester-container -p 7000:80 arm32v7/ubuntu:latest tail -f /dev/null
+
 # Install Apache web server inside the container
 docker exec -it typescript-tester-container apt-get update
 docker exec -it typescript-tester-container apt-get install -y apache2
+
 # Create a directory for hosting the TypeScript app
 docker exec -it typescript-tester-container mkdir -p /var/www/html
+
 # Wait for Apache to start
 sleep 2
+
 # Copy the index.html file into the container
 docker cp index.html typescript-tester-container:/var/www/html/index.html
+
 # Restart Apache to apply changes
 docker exec -it typescript-tester-container service apache2 restart
 
