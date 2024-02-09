@@ -44,9 +44,26 @@ docker ps -a --filter "name=typescript-tester-container" --format "{{.ID}}" | xa
 # Run the Docker container
 docker run -d --name typescript-tester-container -p 7000:80 arm32v7/ubuntu:latest tail -f /dev/null
 
-# Install Apache web server inside the container
+# Check if /var/www/html directory exists, if not create it
+if ! docker exec -it typescript-tester-container [ -d "/var/www/html" ]; then
+    docker exec -it typescript-tester-container mkdir -p /var/www/html
+fi
+
+# Check if the directory was created successfully
+if ! docker exec -it typescript-tester-container [ -d "/var/www/html" ]; then
+    echo "Error: Failed to create directory /var/www/html in the container."
+    exit 1
+fi
+
+# Install Apache web server inside the container if /var/www/html directory exists
 docker exec -it typescript-tester-container apt-get update
 docker exec -it typescript-tester-container apt-get install -y apache2
+
+# Check if Apache installation was successful
+if ! docker exec -it typescript-tester-container dpkg -l | grep -q "apache2"; then
+    echo "Error: Failed to install Apache web server."
+    exit 1
+fi
 
 # Create the directory /var/www/html if it doesn't exist
 docker exec -it typescript-tester-container mkdir -p /var/www/html
