@@ -35,6 +35,8 @@ echo "Compilation finished."
 # Install Apache web server inside the container
 docker exec -it typescript-tester-container apt-get update
 docker exec -it typescript-tester-container apt-get install -y apache2
+# Create a directory for hosting the TypeScript app
+docker exec -it typescript-tester-container mkdir -p /var/www/html
 # Replace the default Apache index.html with the TypeScript app
 docker cp index.html typescript-tester-container:/var/www/html/index.html
 # Restart Apache to apply changes
