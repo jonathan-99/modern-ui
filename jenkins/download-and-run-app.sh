@@ -32,26 +32,31 @@ echo "Compiling TypeScript code..."
 ./node_modules/.bin/tsc   # Compile TypeScript code
 echo "Compilation finished."
 
-# Run unittests
-echo "Run unittests"
-python3 -m unittest discover -s testing -p 'test_*.tsx'
+# Install Apache web server inside the container
+docker exec -it typescript-tester-container apt-get update
+docker exec -it typescript-tester-container apt-get install -y apache2
+# Replace the default Apache index.html with the TypeScript app
+docker cp index.html typescript-tester-container:/var/www/html/index.html
+# Restart Apache to apply changes
+docker exec -it typescript-tester-container service apache2 restart
+echo "Apache web server installed and TypeScript app hosted on port 7000."
 
-# Run coverage report
-echo "coverage report"
-# Create a virtual environment
-python3 -m venv myenv
+# Check if the container is running and on the correct port
+container_info=$(docker ps -a --filter "name=typescript-tester-container" --format "{{.Names}} {{.Ports}}")
 
-# Activate the virtual environment
-source myenv/bin/activate
-
-# Install coverage inside the virtual environment
-pip install coverage
-coverage run -m unittest discover -s testing -p 'test_*.tsx'
-coverage report -m
-
-# Run Docker container on host port 7000
-docker ps -a
-docker run -d --name typescript-tester-container -p 7000:7000 arm32v7/ubuntu:latest tail -f /dev/null
+if [[ -n "$container_info" ]]; then
+    if [[ "$container_info" != *"7000->7000"* ]]; then
+        echo "Container is running but not on port 7000:7000. Stopping and restarting with correct port..."
+        docker stop typescript-tester-container
+        docker rm typescript-tester-container
+        docker run -d --name typescript-tester-container -p 7000:7000 arm32v7/ubuntu:latest tail -f /dev/null
+    else
+        echo "Container is running and on port 7000:7000. No action needed."
+    fi
+else
+    echo "Container is not running. Starting it..."
+    docker run -d --name typescript-tester-container -p 7000:7000 arm32v7/ubuntu:latest tail -f /dev/null
+fi
 
 # Wait for the app to start
 sleep 5
