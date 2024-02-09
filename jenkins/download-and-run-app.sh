@@ -12,6 +12,11 @@ if ! container_running; then
     docker run -d --name typescript-tester-container arm32v7/ubuntu:latest tail -f /dev/null
 fi
 
+# Check if the typescript-files directory already exists and remove it if it does
+if [ -d "typescript-files" ]; then
+    echo "Removing existing typescript-files directory..."
+    rm -rf typescript-files
+fi
 
 # Clone git repo containing TypeScript files
 git clone https://github.com/jonathan-99/modern-ui typescript-files
