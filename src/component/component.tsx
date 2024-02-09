@@ -7,17 +7,17 @@ export default class Counter extends React.Component {
 
   increment = () => {
     this.setState({
-      count: (this.state.count + 1)
+      count: this.state.count + 1
     });
   };
 
   decrement = () => {
     this.setState({
-      count: (this.state.count - 1)
+      count: this.state.count - 1
     });
   };
 
-  render () {
+  render() {
     return (
       <div>
         <h1>{this.state.count}</h1>
