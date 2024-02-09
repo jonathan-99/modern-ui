@@ -32,6 +32,12 @@ echo "Compiling TypeScript code..."
 ./node_modules/.bin/tsc   # Compile TypeScript code
 echo "Compilation finished."
 
+# Check if index.html file exists
+if [ ! -f "index.html" ]; then
+    echo "Error: index.html file not found."
+    exit 1
+fi
+
 # Install Apache web server inside the container
 docker exec -it typescript-tester-container apt-get update
 docker exec -it typescript-tester-container apt-get install -y apache2
