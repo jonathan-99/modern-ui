@@ -7,6 +7,8 @@ apt-get update
 apt-get install -y nodejs npm python3 python3-pip
 npm install -g npm@latest
 pip3 install unittest2 coverage
+npm install -g typescript
+
 
 # Print OS version
 echo "OS Version:"

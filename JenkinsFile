@@ -9,6 +9,7 @@ pipeline {
                 echo "this is the npm version $(npm -v)"
                 echo "this is the ufw data $(ufw status)"
                 echo "docker version $(docker -v)"
+                echo "typscript version $(tsc -v)"
                 }
             }
         }
