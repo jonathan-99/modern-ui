@@ -8,8 +8,8 @@ container_running() {
 # Check if Docker container is already running
 if ! container_running; then
     echo "Docker container 'typescript-tester-container' is not running. Starting it now..."
-    # Run the Docker container
-    docker run -d --name typescript-tester-container arm32v7/ubuntu:latest tail -f /dev/null
+    # Run the Docker container and install Apache inside it
+    docker run -d --name typescript-tester-container arm32v7/ubuntu:latest /bin/bash -c "apt-get update && apt-get install -y apache2 && tail -f /dev/null"
 fi
 
 # Check if the typescript-files directory already exists and remove it if it does
@@ -82,6 +82,9 @@ if [ -z "$container_id" ]; then
     echo "Error: Docker container failed to start."
     exit 1
 fi
+
+docker exec typescript-tester-container cat /var/log/apache2/error.log
+
 
 echo "waiting..."
 # Wait for the app to start
