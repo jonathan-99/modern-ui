@@ -46,13 +46,25 @@ docker ps -a --filter "name=typescript-tester-container" --format "{{.ID}}" | xa
 # Run the Docker container
 docker run -d --name typescript-tester-container -p 7000:80 arm32v7/ubuntu:latest tail -f /dev/null
 
+# Check if index.html file exists
+if [ ! -f "index.html" ]; then
+    echo "Error: index.html file not found."
+    exit 1
+fi
+
+# Check if the container with the same name exists and remove it if it does
+docker ps -a --filter "name=typescript-tester-container" --format "{{.ID}}" | xargs docker rm -f
+
+# Run the Docker container
+docker run -d --name typescript-tester-container -p 7000:80 arm32v7/ubuntu:latest tail -f /dev/null
+
 # Check if /var/www/html directory exists, if not create it
 if ! docker exec -it typescript-tester-container [ -d "/var/www/html" ]; then
     mkdir_result=$(docker exec -it typescript-tester-container mkdir -p /var/www/html 2>&1)
     if [ $? -ne 0 ]; then
         echo "Error: Failed to create directory /var/www/html in the container."
         echo "Container Logs:"
-        echo "$mkdir_result"
+        docker logs typescript-tester-container
         exit 1
     fi
 fi
@@ -72,6 +84,9 @@ if ! docker exec -it typescript-tester-container command -v apache2 &>/dev/null;
     # Restart Apache to apply changes
     docker exec -it typescript-tester-container service apache2 restart
 fi
+
+echo "Apache web server installed and TypeScript app hosted on port 7000."
+
 
 echo "Apache web server installed and TypeScript app hosted on port 7000."
 
