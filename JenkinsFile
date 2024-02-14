@@ -66,15 +66,19 @@ pipeline {
         stage('Run Application') {
             steps {
                 script {
+                    sh '''
                     echo "Download docker, install typscript files, compile, start docker on port 7000"
-                    sh "./jenkins/download-and-run-app.sh"
+                    ./jenkins/download-and-run-app.sh
+                    '''
                 }
             }
         }
-        stage('temp') {
+        stage('post checks') {
             steps {
                 script {
-                    //pass
+                    sh '''
+                    echo "I am here"
+                    '''
                 }
             }
         }
