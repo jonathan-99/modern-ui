@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    file_1=$("jenkins/startup-and-install.sh")
+                    file_1=$(jenkins/startup-and-install.sh)
                     chmod +x $file_1
                     filePermissions=$(ls -l $file_1)
                     echo "File permissions: ${filePermissions}"
