@@ -48,27 +48,34 @@ pipeline {
                 }
             }
         }
-        stage('Download docker, install libraries') {
+        stage('Start up and install') {
             steps {
                 script {
-                    sh "chmod +x -R ${env.WORKSPACE}" // include jenkins/
-                    sh "./jenkins/startup-and-install.sh"
+                    sh '''
+                    filePermissions=$(ls -l jenkins/startup-and-install.sh)
+                    echo "File permissions: ${filePermissions}"
+                    chmod +x "jenkins/startup-and-install.sh"
+                    '''
+                }
+            }
+        }
+        stage('download and run the app') {
+            steps {
+                script {
+                    sh '''
+                    filePermissions=$(ls -l jenkins/download-and-run-app.sh)
+                    echo "File permissions: ${filePermissions}"
+                    chmod +x "jenkins/download-and-run-app.sh"
+                    '''
                 }
             }
         }
         stage('unittests and coverage report') {
             steps {
                 script {
-                    sh "./jenkins/unittests_and_coverage_report.sh"
-                }
-            }
-        }
-        stage('Run Application') {
-            steps {
-                script {
                     sh '''
-                    echo "Download docker, install typscript files, compile, start docker on port 7000"
-                    ./jenkins/download-and-run-app.sh
+
+                    ./jenkins/unittests_and_coverage_report.sh
                     '''
                 }
             }
