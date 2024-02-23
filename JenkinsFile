@@ -28,7 +28,7 @@ pipeline {
         stage('Change permissions') {
             steps {
                 script {
-                    sh "
+                    sh """
                     file_1=$(jenkins/startup-and-install.sh)
                     chmod +x $file_1
                     filePermissions=$(ls -l $file_1)
@@ -43,7 +43,7 @@ pipeline {
                     chmod +x $file_3
                     filePermissions=$(ls -l $file_3)
                     echo "File permissions: ${filePermissions}"
-                    "
+                    """
                 }
             }
         }
