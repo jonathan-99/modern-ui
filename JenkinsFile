@@ -78,19 +78,24 @@ pipeline {
             steps {
                 script {
                     sh """
-                    filePermissions=$(ls -l jenkins/unittests_and_coverage_report.sh)
-                    echo 'File permissions: ${filePermissions}'
-                    chmod +x 'jenkins/download-and-run-app.sh'
-                    ./jenkins/unittests_and_coverage_report.sh
+                    file='jenkins/unittests_and_coverage_report.sh'
+                    chmod +x \$file
+                    filePermissions=\$(ls -l \$file)
+                    echo 'File permissions: \$filePermissions'
+                    ./\$file
                     """
                 }
             }
         }
-        stage('post checks') {
+        stage('Cypress checks') {
             steps {
                 script {
                     sh """
-                    echo 'I am here'
+                    file='jenkins/install_and_do_Cypress_test.sh'
+                    chmod +x \$file
+                    filePermissions=\$(ls -l \$file)
+                    echo 'File permissions: \$filePermissions'
+                    ./\$file
                     """
                 }
             }
