@@ -65,10 +65,11 @@ pipeline {
             steps {
                 script {
                     sh """
-                    filePermissions=$(ls -l jenkins/download-and-run-app.sh)
-                    echo 'File permissions: ${filePermissions}'
-                    chmod +x 'jenkins/download-and-run-app.sh'
-                    ./jenkins/download-and-run-app.sh
+                    file='jenkins/download-and-run-app.sh'
+                    chmod +x \$file
+                    filePermissions=\$(ls -l \$file)
+                    echo 'File permissions: \$filePermissions'
+                    ./\$file
                     """
                 }
             }
