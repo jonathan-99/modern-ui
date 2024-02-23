@@ -5,11 +5,11 @@ pipeline {
         stage('checks') {
             steps {
                 script {
-                sh "echo 'this is node version $(node -v)'"
-                sh "echo 'this is the npm version $(npm -v)'"
-                sh "echo 'this is the ufw data $(ufw status)'"
-                sh "echo 'docker version $(docker -v)'"
-                sh "echo 'typscript version $(tsc -v)'"
+                sh "echo 'this is node version ' + sh(script: 'node -v', returnStdout: true).trim()"
+                sh "echo 'this is the npm version ' + sh(script: 'npm -v', returnStdout: true).trim()"
+                sh "echo 'this is the ufw data ' + sh(script: 'ufw status', returnStdout: true).trim()"
+                sh "echo 'docker version ' + sh(script: 'docker -v', returnStdout: true).trim()"
+                sh "echo 'typscript version ' + sh(script: 'tsc -v', returnStdout: true).trim()"
                 }
             }
         }
