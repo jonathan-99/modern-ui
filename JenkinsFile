@@ -52,10 +52,11 @@ pipeline {
             steps {
                 script {
                     sh """
-                    filePermissions=$(ls -l jenkins/startup-and-install.sh)
-                    echo 'File permissions: ${filePermissions}''
-                    chmod +x 'jenkins/startup-and-install.sh'
-                    ./jenkins/startup-and-install.sh
+                    file='jenkins/startup-and-install.sh'
+                    chmod +x \$file
+                    filePermissions=\$(ls -l \$file)
+                    echo 'File permissions: \$filePermissions'
+                    ./\$file
                     """
                 }
             }
