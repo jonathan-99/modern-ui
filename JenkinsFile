@@ -34,8 +34,8 @@ pipeline {
                         file='jenkins/startup-and-install.sh'
                         chmod +x \$file
                         filePermissions=\$(ls -l \$file)
-                        echo 'File permissions: \$filePermissions'
-                        script -q -c '.\$file' /dev/null
+                        echo "File permissions: $filePermissions"
+                        script -q -c "./$file" /dev/null
                     """
                 }
             }
