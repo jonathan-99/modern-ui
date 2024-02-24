@@ -41,9 +41,10 @@ container_id=$(docker ps --format '{{.ID}}' --filter "name=typescript-tester-con
 # Debug: Check if the container ID is set correctly
 echo "Container ID: $container_id"
 
-# Check if the typescript-files directory already exists and remove it if it does
-#echo "Checking if typescript-files directory exists in the Docker container..."
-#docker exec $container_id bash -c '[ -d "modern-ui" ] && echo "Directory exists" || echo "Directory does not exist"'
+# Install Git in the Docker container
+echo "Installing Git..."
+#docker exec $container_id apt-get update
+docker exec $container_id apt-get install -y git
 
 # Clone git repo containing TypeScript files
 echo "Cloning git repo containing TypeScript files..."
