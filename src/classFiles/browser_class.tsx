@@ -30,10 +30,6 @@ class UserBrowserInfo {
         return this.userAgent;
     }
 
-    public getBrowserAgent(): string {
-        return this.browserAgent;
-    }
-
     public getPlatform(): string {
         return this.platform;
     }

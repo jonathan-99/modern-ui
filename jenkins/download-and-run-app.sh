@@ -71,8 +71,21 @@ for file in $ts_files; do
     fi
 done
 
-
 docker exec typescript-tester-container env
+
+# Run TypeScript compiler and capture output
+output=$(tsc 2>&1)
+
+# Check if there are any errors in the output
+if [[ $output == *"error TS"* ]]; then
+    echo "Type Declaration Errors Found:"
+    echo "$output" | grep "error TS"
+    exit 1
+else
+    echo "No Type Declaration Errors Found"
+    exit 0
+fi
+
 
 # Run the TypeScript compiler with the --showConfig flag
 echo "Running TypeScript compiler with --showConfig flag..."
