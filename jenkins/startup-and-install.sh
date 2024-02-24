@@ -27,7 +27,8 @@ if [ $? -ne 0 ]; then
         apt-get install -y apt-utils nodejs npm python3 python3-pip curl wget && \
         npm install -g npm@latest && \
         pip3 install unittest2 coverage && \
-        npm install -g typescript'
+        npm install -g typescript && \
+        apt-get install -y apt-utils'
 else
     echo "Necessary packages are already installed."
 

@@ -86,7 +86,7 @@ npm install typescript --prefix ./
 
 # Compile TypeScript code
 ./node_modules/.bin/tsc || {
-    echo "Error: Compilation of TypeScript code failed."
+    echo "Error: Compilation of TypeScript code failed, but the build process will continue."
 }
 
 # Check if index.html file exists
@@ -106,9 +106,6 @@ if [ -z "$container_id" ]; then
     echo "Error: Docker container failed to start."
     exit 1
 fi
-
-docker exec typescript-tester-container cat /var/log/apache2/error.log
-
 
 echo "waiting..."
 # Wait for the app to start
@@ -130,3 +127,9 @@ else
     echo "Error: Application is not running on port 7000."
     exit 1
 fi
+
+# Try to display Apache error log, if exists
+echo "Trying to display Apache error log..."
+docker exec typescript-tester-container bash -c 'cat /var/log/apache2/error.log' || {
+    echo "Error: Failed to display Apache error log."
+}
