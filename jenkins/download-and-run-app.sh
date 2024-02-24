@@ -43,7 +43,7 @@ echo "Container ID: $container_id"
 
 # Install Git in the Docker container
 echo "Installing Git..."
-#docker exec $container_id apt-get update
+docker exec $container_id apt-get update
 docker exec $container_id apt-get install -y git
 
 # Clone git repo containing TypeScript files
