@@ -50,6 +50,10 @@ docker exec $container_id apt-get install -y git
 echo "Cloning git repo containing TypeScript files..."
 docker exec $container_id git clone https://github.com/jonathan-99/modern-ui modern-ui
 
+# List files in the 'src' directory
+docker exec $container_id ls -l modern-ui/src
+
+
 # Check if the 'src' directory exists
 echo "Checking if 'src' directory exists..."
 docker exec $container_id bash -c '[ -d "modern-ui/src" ] && echo "src directory exists" || echo "src directory does not exist"'
