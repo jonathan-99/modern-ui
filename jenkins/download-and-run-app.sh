@@ -42,8 +42,8 @@ container_id=$(docker ps --format '{{.ID}}' --filter "name=typescript-tester-con
 echo "Container ID: $container_id"
 
 # Check if the typescript-files directory already exists and remove it if it does
-echo "Checking if typescript-files directory exists in the Docker container..."
-docker exec $container_id bash -c '[ -d "modern-ui" ] && echo "Directory exists" || echo "Directory does not exist"'
+#echo "Checking if typescript-files directory exists in the Docker container..."
+#docker exec $container_id bash -c '[ -d "modern-ui" ] && echo "Directory exists" || echo "Directory does not exist"'
 
 # Clone git repo containing TypeScript files
 echo "Cloning git repo containing TypeScript files..."
