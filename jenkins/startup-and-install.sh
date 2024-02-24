@@ -24,12 +24,15 @@ echo "Installing necessary packages..."
 docker exec $CONTAINER_ID bash -c 'which node npm python3 pip3 tsc curl wget' > /dev/null 2>&1
 if [ $? -ne 0 ]; then
     docker exec $CONTAINER_ID bash -c 'apt-get update && \
-        apt-get install -y nodejs npm python3 python3-pip curl wget && \
+        apt-get install -y apt-utils nodejs npm python3 python3-pip curl wget && \
         npm install -g npm@latest && \
         pip3 install unittest2 coverage && \
         npm install -g typescript'
 else
     echo "Necessary packages are already installed."
+
+    # Update npm to the latest version
+    docker exec $CONTAINER_ID bash -c 'npm install -g npm@latest'
 fi
 
 # Print OS version
@@ -50,7 +53,7 @@ docker exec $CONTAINER_ID python3 --version
 
 # Print unittest version
 echo "unittest Version:"
-docker exec $CONTAINER_ID python3 -m unittest --version
+docker exec $CONTAINER_ID python3 -m unittest
 
 # Print coverage version
 echo "coverage Version:"

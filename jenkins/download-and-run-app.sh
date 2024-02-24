@@ -11,16 +11,30 @@ display_installation_issues() {
     docker exec "$container_id" cat /var/log/apt/history.log
 }
 
+# Function to check if Docker container is already running
+container_running() {
+    docker ps -q --filter "name=typescript-tester-container" | grep -q . && return 0 || return 1
+}
+
 # Check if Docker container is already running
 if ! container_running; then
     echo "Docker container 'typescript-tester-container' is not running. Starting it now..."
-    # Run the Docker container and install Apache inside it
-    container_id=$(docker run -d --name typescript-tester-container arm32v7/ubuntu:latest /bin/bash -c "apt-get update && apt-get install -y apache2 && tail -f /dev/null")
+    # Run the Docker container
+    container_id=$(docker run -d --name typescript-tester-container arm32v7/ubuntu:latest /bin/bash -c "tail -f /dev/null")
     if [ $? -ne 0 ]; then
-        echo "Error: Failed to start Docker container or install Apache."
+        echo "Error: Failed to start Docker container."
+        exit 1
+    fi
+
+    # Install Apache inside the container
+    echo "Installing Apache inside the container..."
+    docker exec $container_id bash -c "apt-get update && apt-get install -y apache2"
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to install Apache inside the container."
         exit 1
     fi
 fi
+
 
 # Check if the typescript-files directory already exists and remove it if it does
 if [ -d "typescript-files" ]; then

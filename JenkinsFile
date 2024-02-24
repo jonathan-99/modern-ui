@@ -7,7 +7,7 @@ pipeline {
                 script {
                 sh """
                     echo "this is the npm version ${sh(script: 'npm -v', returnStdout: true).trim()}"
-                    echo "this is the npm version ${sh(script: 'node -v', returnStdout: true).trim()}"
+                    echo "this is the node version ${sh(script: 'node -v', returnStdout: true).trim()}"
                     echo "this is the ufw data ${sh(script: 'sudo ufw status', returnStdout: true).trim()}"
                     echo "docker version ${sh(script: 'docker -v', returnStdout: true).trim()}"
                     echo "typscript version ${sh(script: 'tsc -v', returnStdout: true).trim()}"
@@ -34,6 +34,8 @@ pipeline {
                     filePermissions1=\$(ls -l jenkins/startup-and-install.sh)
                     echo 'File permissions: \$filePermissions1'
                     chmod +x jenkins/startup-and-install.sh
+                    filePermissions1_1=\$(ls -l jenkins/startup-and-install.sh)
+                    echo 'File permissions: \$filePermissions1_1'
                     thefile=\$(jenkins/startup-and-install.sh)
                     script -q -c './\$thefile' /dev/null
 
