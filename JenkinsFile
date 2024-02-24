@@ -29,20 +29,20 @@ pipeline {
             steps {
                 script {
                     sh """
-                        file_1='jenkins/startup-and-install.sh'
-                        chmod +x \$file_1
-                        filePermissions=\$(ls -l \$file_1)
-                        echo "File permissions: \$filePermissions"
+                        filePermissions1=\$(ls -l jenkins/startup-and-install.sh)
+                        echo 'File permissions: \$filePermissions1'
+                        chmod +x jenkins/startup-and-install.sh
+                        ./jenkins/startup-and-install.sh
 
-                        file_2='jenkins/download-and-run-app.sh'
-                        chmod +x \$file_2
-                        filePermissions=\$(ls -l \$file_2)
-                        echo "File permissions: \$filePermissions"
+                        filePermissions2=\$(ls -l jenkins/download-and-run-app.sh)
+                        echo 'File permissions: \$filePermissions2'
+                        chmod +x jenkins/download-and-run-app.sh
+                        ./jenkins/download-and-run-app.sh
 
-                        file_3='jenkins/unittests_and_coverage_report.sh'
-                        chmod +x \$file_3
-                        filePermissions=\$(ls -l \$file_3)
-                        echo "File permissions: \$filePermissions"
+                        filePermissions3=\$(ls -l jenkins/unittests_and_coverage_report.sh)
+                        echo 'File permissions: \$filePermissions3'
+                        chmod +x jenkins/unittests_and_coverage_report.sh
+                        ./jenkins/unittests_and_coverage_report.sh
                     """
 
                 }
