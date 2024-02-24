@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Section from "./Section";
-import UserBrowserInfo from "../../classFiles/browser_class";
+import UserBrowserInfo, { BrowserInfo } from "../../classFiles/browser_class";
 import SectionWithCommand from "./SectionWithCommand";
 
 function Page() {
-    const [userBrowserInfo, setUserBrowserInfo] = useState(null); // State to store browser information
+    const [userBrowserInfo, setUserBrowserInfo] = useState<BrowserInfo | null>(null); // State to store browser information
 
     useEffect(() => {
         // Fetch browser information when component mounts
