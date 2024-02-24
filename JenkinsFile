@@ -32,17 +32,17 @@ pipeline {
                         file_1='jenkins/startup-and-install.sh'
                         chmod +x \$file_1
                         filePermissions=\$(ls -l \$file_1)
-                        echo 'File permissions: \$filePermissions'
+                        echo "File permissions: \$filePermissions"
 
                         file_2='jenkins/download-and-run-app.sh'
                         chmod +x \$file_2
                         filePermissions=\$(ls -l \$file_2)
-                        echo 'File permissions: \$filePermissions'
+                        echo "File permissions: \$filePermissions"
 
                         file_3='jenkins/unittests_and_coverage_report.sh'
                         chmod +x \$file_3
                         filePermissions=\$(ls -l \$file_3)
-                        echo 'File permissions: \$filePermissions'
+                        echo "File permissions: \$filePermissions"
                     """
 
                 }
