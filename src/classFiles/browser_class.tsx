@@ -19,7 +19,7 @@ class UserBrowserInfo {
             return "Safari";
         } else if (userAgent.indexOf("Opera") !== -1) {
             return "Opera";
-        } else if (userAgent.indexOf("MSIE") !== -1 || !!document.documentMode === true) {
+        } else if (userAgent.indexOf("MSIE") !== -1 || (typeof document !== 'undefined' && !!document.documentMode === true)) {
             return "IE"; // Internet Explorer 10 or older
         } else {
             return "Unknown";
