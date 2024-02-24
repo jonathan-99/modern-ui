@@ -5,7 +5,7 @@ pipeline {
         stage('checks') {
             steps {
                 script {
-                echo "this is the npm version $(sh(script: 'npm -v', returnStdout: true).trim())"
+                echo "this is the npm version ${sh(script: 'npm -v', returnStdout: true).trim()}"
                 echo "this is the npm version $(sh(script: 'node -v', returnStdout: true).trim())"
                 echo "this is the ufw data $(sh(script: 'ufw status', returnStdout: true).trim()"
                 echo "docker version $(sh(script: 'docker -v', returnStdout: true).trim()"
