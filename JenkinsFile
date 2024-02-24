@@ -34,7 +34,7 @@ pipeline {
                     filePermissions1=\$(ls -l jenkins/startup-and-install.sh)
                     echo 'File permissions: \$filePermissions1'
                     chmod +x jenkins/startup-and-install.sh
-                    thefile=\$(/jenkins/startup-and-install.sh)
+                    thefile=\$(jenkins/startup-and-install.sh)
                     script -q -c './\$thefile' /dev/null
 
                     filePermissions2=\$(ls -l jenkins/download-and-run-app.sh)
