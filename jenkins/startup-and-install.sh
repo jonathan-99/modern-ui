@@ -1,40 +1,57 @@
 #!/bin/bash
 
-# Download and run the Docker container
-docker run --rm --name typescript-tester-container --privileged --entrypoint /bin/bash arm32v7/ubuntu:latest <<EOF
-# Update apt and install necessary packages
-apt-get update && \
-apt-get install -y nodejs npm python3 python3-pip && \
-npm install -g npm@latest && \
-pip3 install unittest2 coverage && \
-npm install -g typescript && \
-apt-get install -y curl wget || { echo "Error: Failed to install packages"; exit 1; }
+# Check if the container already exists
+if docker ps -a --format '{{.Names}}' | grep -q "typescript-tester-container"; then
+    echo "Container 'typescript-tester-container' already exists, reusing..."
 
-# Print OS version
-echo "OS Version:"
-cat /etc/os-release
+    # Check if the necessary packages are installed
+    docker exec typescript-tester-container bash -c 'which node npm python3 pip3 tsc curl wget' > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Installing necessary packages..."
+        docker exec typescript-tester-container bash -c 'apt-get update && \
+            apt-get install -y nodejs npm python3 python3-pip curl wget && \
+            npm install -g npm@latest && \
+            pip3 install unittest2 coverage && \
+            npm install -g typescript'
+    else
+        echo "Necessary packages are already installed."
+    fi
+else
+    # Download and run the Docker container if it doesn't exist
+    docker run --rm --name typescript-tester-container --privileged --entrypoint /bin/bash arm32v7/ubuntu:latest <<EOF
+    # Update apt and install necessary packages
+    apt-get update && \
+    apt-get install -y nodejs npm python3 python3-pip curl wget && \
+    npm install -g npm@latest && \
+    pip3 install unittest2 coverage && \
+    npm install -g typescript || { echo "Error: Failed to install packages"; exit 1; }
 
-# Print Node.js version
-echo "Node.js Version:"
-node -v
+    # Print OS version
+    echo "OS Version:"
+    cat /etc/os-release
 
-# Print npm version
-echo "npm Version:"
-npm -v
+    # Print Node.js version
+    echo "Node.js Version:"
+    node -v
 
-# Print Python version
-echo "Python Version:"
-python3 --version
+    # Print npm version
+    echo "npm Version:"
+    npm -v
 
-# Print unittest version
-echo "unittest Version:"
-python3 -m unittest --version
+    # Print Python version
+    echo "Python Version:"
+    python3 --version
 
-# Print coverage version
-echo "coverage Version:"
-coverage --version
+    # Print unittest version
+    echo "unittest Version:"
+    python3 -m unittest --version
 
-# Print Docker image ID
-echo "Docker Image ID:"
-cat /proc/self/cgroup | grep "docker" | sed 's/^.*\///' | head -n 1
+    # Print coverage version
+    echo "coverage Version:"
+    coverage --version
+
+    # Print Docker image ID
+    echo "Docker Image ID:"
+    cat /proc/self/cgroup | grep "docker" | sed 's/^.*\///' | head -n 1
 EOF
+fi
