@@ -35,30 +35,34 @@ if ! container_running; then
     fi
 fi
 
+# Debug: Check if the container ID is set correctly
+echo "Container ID: $container_id"
+
 # Check if the typescript-files directory already exists and remove it if it does
 echo "Checking if typescript-files directory exists in the Docker container..."
-docker exec $CONTAINER_ID bash -c '[ -d "modern-ui" ] && echo "Directory exists" || echo "Directory does not exist"'
+docker exec $container_id bash -c '[ -d "modern-ui" ] && echo "Directory exists" || echo "Directory does not exist"'
 
 # Clone git repo containing TypeScript files
 echo "Cloning git repo containing TypeScript files..."
-docker exec $CONTAINER_ID git clone https://github.com/jonathan-99/modern-ui modern-ui
+docker exec $container_id git clone https://github.com/jonathan-99/modern-ui modern-ui
 
 # Check if the 'src' directory exists
 echo "Checking if 'src' directory exists..."
-docker exec $CONTAINER_ID bash -c '[ -d "modern-ui/src" ] && echo "src directory exists" || echo "src directory does not exist"'
+docker exec $container_id bash -c '[ -d "modern-ui/src" ] && echo "src directory exists" || echo "src directory does not exist"'
 
 # Find all TypeScript files in the 'src' directory
 echo "Finding TypeScript files in 'src' directory..."
-docker exec $CONTAINER_ID find modern-ui/src -name "*.ts"
+docker exec $container_id find modern-ui/src -name "*.ts"
 
 # Check each TypeScript file for syntax errors
 for file in $ts_files; do
     echo "Checking syntax errors in $file..."
-    if ! npx tsc --noEmit --skipLibCheck "$file" 2>&1; then
+    if ! docker exec $container_id npx tsc --noEmit --skipLibCheck "$file" 2>&1; then
         echo "Error: Syntax errors found in $file"
         exit 1
     fi
 done
+
 
 docker exec typescript-tester-container env
 
