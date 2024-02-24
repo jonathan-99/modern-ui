@@ -1,15 +1,14 @@
 #!/bin/bash
 
 # Download and run the Docker container
-docker run -it --rm --name typescript-tester-container --privileged --entrypoint /bin/bash arm32v7/ubuntu:latest <<EOF
+docker run --rm --name typescript-tester-container --privileged --entrypoint /bin/bash arm32v7/ubuntu:latest <<EOF
 # Update apt and install necessary packages
-apt-get update
-apt-get install -y nodejs npm python3 python3-pip
-npm install -g npm@latest
-pip3 install unittest2 coverage
-npm install -g typescript
-apt-get install -y curl wget
-
+apt-get update && \
+apt-get install -y nodejs npm python3 python3-pip && \
+npm install -g npm@latest && \
+pip3 install unittest2 coverage && \
+npm install -g typescript && \
+apt-get install -y curl wget || { echo "Error: Failed to install packages"; exit 1; }
 
 # Print OS version
 echo "OS Version:"
