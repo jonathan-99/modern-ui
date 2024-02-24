@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
+interface Command {
+    name: string;
+    options: string;
+}
+
 function SectionWithCommand() {
-    const [command, setCommand] = useState(null);
-    const [commandResult, setCommandResult] = useState(null);
+    const [command, setCommand] = useState<Command | null>(null);
+    const [commandResult, setCommandResult] = useState<string | null>(null);
 
     useEffect(() => {
         fetch('../json_files/user_config.json')
