@@ -35,6 +35,9 @@ if ! container_running; then
     fi
 fi
 
+# Assign the container ID to $CONTAINER_ID
+container_id=$(docker ps --format '{{.ID}}' --filter "name=typescript-tester-container")
+
 # Debug: Check if the container ID is set correctly
 echo "Container ID: $container_id"
 
