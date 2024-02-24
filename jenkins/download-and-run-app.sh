@@ -35,27 +35,21 @@ if ! container_running; then
     fi
 fi
 
-
 # Check if the typescript-files directory already exists and remove it if it does
-if [ -d "typescript-files" ]; then
-    echo "Removing existing typescript-files directory..."
-    rm -rf typescript-files
-fi
+echo "Checking if typescript-files directory exists in the Docker container..."
+docker exec $CONTAINER_ID bash -c '[ -d "modern-ui" ] && echo "Directory exists" || echo "Directory does not exist"'
 
 # Clone git repo containing TypeScript files
-git clone https://github.com/jonathan-99/modern-ui typescript-files
-
-# Enter the cloned directory
-cd typescript-files || exit
+echo "Cloning git repo containing TypeScript files..."
+docker exec $CONTAINER_ID git clone https://github.com/jonathan-99/modern-ui modern-ui
 
 # Check if the 'src' directory exists
-if [ ! -d "src" ]; then
-    echo "Error: 'src' directory not found."
-    exit 1
-fi
+echo "Checking if 'src' directory exists..."
+docker exec $CONTAINER_ID bash -c '[ -d "modern-ui/src" ] && echo "src directory exists" || echo "src directory does not exist"'
 
 # Find all TypeScript files in the 'src' directory
-ts_files=$(find src -name "*.ts")
+echo "Finding TypeScript files in 'src' directory..."
+docker exec $CONTAINER_ID find modern-ui/src -name "*.ts"
 
 # Check each TypeScript file for syntax errors
 for file in $ts_files; do
