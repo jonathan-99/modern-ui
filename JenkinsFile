@@ -30,24 +30,23 @@ pipeline {
         stage('Change permissions') {
             steps {
                 script {
-                    sh """
-                        filePermissions1=\$(ls -l jenkins/startup-and-install.sh)
-                        echo 'File permissions: \$filePermissions1'
-                        chmod +x jenkins/startup-and-install.sh
-                        thefile = $(/jenkins/startup-and-install.sh)
-                        script -q -c './$thefile' /dev/null
+                sh """
+                    filePermissions1=\$(ls -l jenkins/startup-and-install.sh)
+                    echo 'File permissions: \$filePermissions1'
+                    chmod +x jenkins/startup-and-install.sh
+                    thefile = $(/jenkins/startup-and-install.sh)
+                    script -q -c './$thefile' /dev/null
 
-                        filePermissions2=\$(ls -l jenkins/download-and-run-app.sh)
-                        echo 'File permissions: \$filePermissions2'
-                        chmod +x jenkins/download-and-run-app.sh
-                        ./jenkins/download-and-run-app.sh
+                    filePermissions2=\$(ls -l jenkins/download-and-run-app.sh)
+                    echo 'File permissions: \$filePermissions2'
+                    chmod +x jenkins/download-and-run-app.sh
+                    ./jenkins/download-and-run-app.sh
 
-                        filePermissions3=\$(ls -l jenkins/unittests_and_coverage_report.sh)
-                        echo 'File permissions: \$filePermissions3'
-                        chmod +x jenkins/unittests_and_coverage_report.sh
-                        ./jenkins/unittests_and_coverage_report.sh
-                    """
-
+                    filePermissions3=\$(ls -l jenkins/unittests_and_coverage_report.sh)
+                    echo 'File permissions: \$filePermissions3'
+                    chmod +x jenkins/unittests_and_coverage_report.sh
+                    ./jenkins/unittests_and_coverage_report.sh
+                """
                 }
             }
         }
