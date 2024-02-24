@@ -56,7 +56,7 @@ pipeline {
                     chmod +x \$file
                     filePermissions=\$(ls -l \$file)
                     echo 'File permissions: \$filePermissions'
-                    ./\$file
+                    script -q -c "./$file" /dev/null
                     """
                 }
             }
