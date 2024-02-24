@@ -27,40 +27,15 @@ pipeline {
                 }
             }
         }
-        stage('Change permissions') {
-            steps {
-                script {
-                sh """
-                    chmod +x jenkins/startup-and-install.sh
-                    filePermissions1_1=\$(ls -l jenkins/startup-and-install.sh)
-                    echo 'File permissions changed: \$filePermissions1_1'
-                    thefile=\$(jenkins/startup-and-install.sh)
-                    script -q -c './\$thefile' /dev/null
-
-                    filePermissions2=\$(ls -l jenkins/download-and-run-app.sh)
-                    echo 'File permissions: \$filePermissions2'
-                    chmod +x jenkins/download-and-run-app.sh
-                    filePermissions2_2=\$(ls -l jenkins/download-and-run-app.sh)
-                    echo 'File permissions changed: \$filePermissions2_2'
-                    ./jenkins/download-and-run-app.sh
-
-                    filePermissions3=\$(ls -l jenkins/unittests_and_coverage_report.sh)
-                    echo 'File permissions: \$filePermissions3'
-                    chmod +x jenkins/unittests_and_coverage_report.sh
-                    ./jenkins/unittests_and_coverage_report.sh
-                """
-                }
-            }
-        }
         stage('Start up and install') {
             steps {
                 script {
                     sh """
-                    file='jenkins/startup-and-install.sh'
-                    chmod +x \$file
-                    filePermissions=\$(ls -l \$file)
-                    echo 'File permissions: \$filePermissions'
-                    script -q -c "./$file" /dev/null
+                        file='jenkins/startup-and-install.sh'
+                        chmod +x \$file
+                        filePermissions=\$(ls -l \$file)
+                        echo 'File permissions: \$filePermissions'
+                        script -q -c './\$file' /dev/null
                     """
                 }
             }
@@ -69,11 +44,11 @@ pipeline {
             steps {
                 script {
                     sh """
-                    file='jenkins/download-and-run-app.sh'
-                    chmod +x \$file
-                    filePermissions=\$(ls -l \$file)
-                    echo 'File permissions: \$filePermissions'
-                    ./\$file
+                        d_file='jenkins/download-and-run-app.sh'
+                        chmod +x \$d_file
+                        filePermissions2=\$(ls -l \$d_file)
+                        echo 'File permissions: \$filePermissions2'
+                        script -q -c './\$d_file' /dev/null
                     """
                 }
             }
@@ -82,11 +57,11 @@ pipeline {
             steps {
                 script {
                     sh """
-                    file='jenkins/unittests_and_coverage_report.sh'
-                    chmod +x \$file
-                    filePermissions=\$(ls -l \$file)
-                    echo 'File permissions: \$filePermissions'
-                    ./\$file
+                        u_file='jenkins/unittests_and_coverage_report.sh'
+                        chmod +x \$u_file
+                        filePermissions3=\$(ls -l \$u_file)
+                        echo 'File permissions: \$filePermissions3'
+                        script -q -c './\$u_file' /dev/null
                     """
                 }
             }
@@ -95,11 +70,11 @@ pipeline {
             steps {
                 script {
                     sh """
-                    file='jenkins/install_and_do_Cypress_test.sh'
-                    chmod +x \$file
-                    filePermissions=\$(ls -l \$file)
-                    echo 'File permissions: \$filePermissions'
-                    ./\$file
+                        file='jenkins/install_and_do_Cypress_test.sh'
+                        chmod +x \$file
+                        filePermissions=\$(ls -l \$file)
+                        echo 'File permissions: \$filePermissions'
+                        script -q -c './\$file' /dev/null
                     """
                 }
             }
