@@ -19,7 +19,8 @@ page -contains-> section -contains-> action button and output pane.
 # Installation Steps.
  -  Install NodeJS on the computer's OS. https://nodejs.org/en
  -  sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
-
+ -  npm install react react-dom
+This might also need to be done in vscode as well as host device or the debugging wsl/app
 # Installation check / errors.
  - Check
   - nvm --version
