@@ -5,7 +5,7 @@ class UserBrowserInfo {
 
     constructor() {
         this.userAgent = navigator.userAgent;
-        this.browserAgent = this.getBrowserAgent();
+        this.browserAgent = this.getBrowserAgent(); // Calls the private method
         this.platform = navigator.platform;
     }
 
@@ -19,7 +19,7 @@ class UserBrowserInfo {
             return "Safari";
         } else if (userAgent.indexOf("Opera") !== -1) {
             return "Opera";
-        } else if (userAgent.indexOf("MSIE") !== -1 || !!document.documentMode === true) {
+        } else if (userAgent.indexOf("MSIE") !== -1 || !!document.DOCUMENT_NODE === true) {
             return "IE"; // Internet Explorer 10 or older
         } else {
             return "Unknown";
@@ -28,10 +28,6 @@ class UserBrowserInfo {
 
     public getUserAgent(): string {
         return this.userAgent;
-    }
-
-    public getBrowserAgent(): string {
-        return this.browserAgent;
     }
 
     public getPlatform(): string {
