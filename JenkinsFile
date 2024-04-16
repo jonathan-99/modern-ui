@@ -80,5 +80,18 @@ pipeline {
                 }
             }
         }
+        stage('Stop docker image') {
+            steps {
+                script {
+                    sh """
+                        f_file='jenkins/stop_docker_image.sh'
+                        chmod +x \$f_file
+                        filePermissions=\$(ls -l \$f_file)
+                        echo 'File permissions: \$filePermissions'
+                        script -q -c './\$f_file' /dev/null
+                    """
+                }
+            }
+        }
     }
 }
