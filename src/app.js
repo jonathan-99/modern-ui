@@ -23,14 +23,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
-var ReactDOM = __importStar(require("react-dom"));
-var page_1 = __importDefault(require("./src/component/page"));
-ReactDOM.render(React.createElement(page_1.default, null), document.getElementById('main'));
-/*
-
-&apos;main&apos;
-
-<div>
-<h1>Hello, Welcome to React and TypeScript</h1>
-</div>
-*/ 
+var react_dom_1 = require("react-dom");
+var page_1 = __importDefault(require("./component/page"));
+function App() {
+    return ((0, react_dom_1.render)(React.createElement(page_1.default, null), document.getElementById('main')));
+}
+exports.default = App;

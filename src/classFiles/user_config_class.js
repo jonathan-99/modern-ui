@@ -18,19 +18,29 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = __importStar(require("react"));
-var ReactDOM = __importStar(require("react-dom"));
-var page_1 = __importDefault(require("./src/component/page"));
-ReactDOM.render(React.createElement(page_1.default, null), document.getElementById('main'));
-/*
-
-&apos;main&apos;
-
-<div>
-<h1>Hello, Welcome to React and TypeScript</h1>
-</div>
-*/ 
+var fs = __importStar(require("fs"));
+var UserConfigReader = /** @class */ (function () {
+    function UserConfigReader(filePath) {
+        this.filePath = filePath;
+        this.userConfig = this.readUserConfig();
+    }
+    UserConfigReader.prototype.readUserConfig = function () {
+        try {
+            var data = fs.readFileSync(this.filePath, 'utf-8');
+            return JSON.parse(data);
+        }
+        catch (error) {
+            console.error('Error reading user config file:', error);
+            return { cmd: [] };
+        }
+    };
+    UserConfigReader.prototype.getAllCmds = function () {
+        return this.userConfig.cmd;
+    };
+    return UserConfigReader;
+}());
+// Usage
+var userConfigReader = new UserConfigReader('../json_files/user_config.json');
+var allCmds = userConfigReader.getAllCmds();
+console.log('All commands:', allCmds);
